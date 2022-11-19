@@ -13,3 +13,5 @@ This project is for automatical attendence system where user can capture images 
 
 ## Demo Video
 
+https://user-images.githubusercontent.com/30599669/202855432-b05ca281-04dd-4906-92df-a15d17d14f9d.mp4
+
