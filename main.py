@@ -15,10 +15,13 @@ from PyQt5.QtCore import pyqtSlot, QRunnable, pyqtSignal, QObject, QThreadPool
 from PyQt5.QtGui import QImage
 from keras.models import load_model
 from GUI import Ui_MainWindow
-from VGG_Utils import VGG_Utils
+from Xception_Utils import Xception_Utils
 from Warning import Ui_Dialog
 from keras.models import load_model
-
+from pathlib import Path
+# from pathlib import Path
+Path("Records").mkdir(parents=True, exist_ok=True)
+Path("Graphs").mkdir(parents=True, exist_ok=True)
 thread_break = False
 
 
@@ -88,7 +91,7 @@ class Main:
         self.samples_amount = 100
 
         # For model workings
-        self.model = VGG_Utils()
+        self.model = Xception_Utils()
         self.learning_rate = 0.1
         self.epochs = 100
         self.batch_size = 20
@@ -352,8 +355,8 @@ class Main:
 
 
 # model = load_model(path_to_model)
-            if self.model.load_model("Model/vgg16_model.h5.h5") == 0:
-                # if self.load_model("Model/vgg16_model.h5.h5") == 0:
+            if self.model.load_model("Model/model.h5") == 0:
+                # if self.load_model("Model/Xception_model.h5.h5") == 0:
                 self.warning_obj.label_3.setText("No Trained Model Found...")
 
             # Get the training tuning values
@@ -386,9 +389,10 @@ class Main:
             if os.path.exists("Graphs/new.jpg"):
                 img = cv2.imread("Graphs/new.jpg")
                 cv2.imwrite("Graphs/training_plot.jpg", img)
-
+            # cv2.imwrite("Graphs/training_plot.jpg", img)
             # Save the dictionary as a dataframe
             result = pd.DataFrame(name_dict, index=[0])
+
             result.to_csv("Records/names.csv", index=False)
             print("training complete")
 
@@ -413,7 +417,7 @@ class Main:
             unknown_appear = 0
 
             # Loading the model trained before
-            self.model = load_model("Model/vgg16_model.h5.h5")
+            self.model = load_model("Model/model.h5")
 
             # To calculate the frame rate
             fps_start_time = datetime.now()
@@ -427,7 +431,7 @@ class Main:
                 tracking_thresh = float(self.ui.comboBox_6.currentText())
 
                 # Load the names
-                names_dict = pd.read_csv("names.csv").values[0]
+                names_dict = pd.read_csv("Records/names.csv").values[0]
 
                 # To calculate the fps rate in the video from camera
                 total_frames = total_frames + 1
