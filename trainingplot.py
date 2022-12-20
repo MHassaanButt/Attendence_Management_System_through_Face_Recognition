@@ -4,6 +4,7 @@ matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import keras
 import numpy as np
+from pathlib import Path
 Path("Graphs").mkdir(parents=True, exist_ok=True)
 
 class TrainingPlot(keras.callbacks.Callback):
